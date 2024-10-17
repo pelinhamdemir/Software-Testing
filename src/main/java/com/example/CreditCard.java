@@ -8,7 +8,7 @@ public class CreditCard {
     private Date expirationDate;
     private String cvv;
 
-    // Yapıcı metod
+    // Constructor
     public CreditCard(String cardNumber, String cardHolder, Date expirationDate, String cvv) {
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
@@ -16,7 +16,7 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
-    // Getter ve Setter metodları
+    // Getter and Setter methods
     public String getCardNumber() {
         return cardNumber;
     }
@@ -49,29 +49,28 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
-
-    // Son kullanma tarihinin geçerliliğini kontrol eden metod
+    // Method to check if the expiration date is valid
     public boolean isExpirationDateValid() {
-        // Eğer expirationDate null ise, geçersiz olarak döner
+        // If expirationDate is null, return invalid
         if (expirationDate == null) {
             return false;
         }
-        
+
         Date currentDate = new Date();
         return expirationDate.after(currentDate);
     }
 
-    // CVV kontrol metodu
+    // CVV validation method
     public boolean isCvvValid(String inputCvv) {
         return this.cvv.equals(inputCvv);
     }
 
-    // Kart numarasının geçerli olup olmadığını kontrol eden metot
+    // Method to check if the card number is valid
     public boolean isCardNumberValid() {
         return cardNumber != null && cardNumber.matches("\\d{4} \\d{4} \\d{4} \\d{4}");
     }
 
-    // Kartın tipini döndüren metot (Visa, MasterCard vb.)
+    // Method to return the card type (Visa, MasterCard, etc.)
     public String getCardType() {
         if (cardNumber.startsWith("4")) {
             return "Visa";
@@ -82,7 +81,7 @@ public class CreditCard {
         }
     }
 
-    // Kart bilgilerini döndüren metod
+    // Method to return card information
     @Override
     public String toString() {
         return "CreditCard{" +

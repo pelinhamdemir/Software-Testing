@@ -49,17 +49,17 @@ public class CreditCardTest {
     @Test
     @DisplayName("CVV Validity Test")
     public void testIsCvvValid() {
-        assertTrue(testCard.isCvvValid("123"), "CVV geçerli olmalı.");
-        assertFalse(testCard.isCvvValid("456"), "CVV geçersiz olmalı.");
+        assertTrue(testCard.isCvvValid("123"), "CVV should be valid.");
+        assertFalse(testCard.isCvvValid("456"), "CVV should be invalid.");
     }
 
     @Test
     @DisplayName("Card Number Validity Test")
     public void testIsCardNumberValid() {
-        assertTrue(testCard.isCardNumberValid(), "Kart numarası geçerli olmalı.");
+        assertTrue(testCard.isCardNumberValid(), "Card number should be valid.");
 
-        testCard.setCardNumber("12345"); // Geçersiz numara
-        assertFalse(testCard.isCardNumberValid(), "Kart numarası geçersiz olmalı.");
+        testCard.setCardNumber("12345"); // Invalid number
+        assertFalse(testCard.isCardNumberValid(), "Card number should be invalid.");
     }
 
     @ParameterizedTest
@@ -71,14 +71,14 @@ public class CreditCardTest {
     @DisplayName("Card Type Detection Test")
     public void testGetCardType(String cardNumber, String expectedType) {
         CreditCard card = new CreditCard(cardNumber, "Jane Doe", new Date(), "123");
-        assertEquals(expectedType, card.getCardType(), "Kart tipi beklenenden farklı.");
+        assertEquals(expectedType, card.getCardType(), "Card type is different from expected.");
     }
 
     @Test
     @DisplayName("ToString Method Test")
     public void testToString() {
         String expectedString = "CreditCard{cardNumber='1234 5678 9012 3456', cardHolder='Test User', expirationDate=" + cal.getTime() + ", cvv='123'}";
-        assertEquals(expectedString, testCard.toString(), "toString metodu beklenen değeri döndürmelidir.");
+        assertEquals(expectedString, testCard.toString(), "The toString method should return the expected value.");
     }
 
     @ParameterizedTest
@@ -93,6 +93,6 @@ public class CreditCardTest {
         Date expirationDate = dateFormat.parse(expirationDateStr);
         CreditCard card = new CreditCard("1234 5678 9012 3456", "John Doe", expirationDate, "123");
 
-        assertEquals(expectedValidity, card.isExpirationDateValid(), "Son kullanma tarihi geçerliliği beklenenden farklı.");
+        assertEquals(expectedValidity, card.isExpirationDateValid(), "Expiration date validity is different from expected.");
     }
 }

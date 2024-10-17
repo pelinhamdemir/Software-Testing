@@ -1,6 +1,5 @@
 package com.example;
 
-
 import java.util.Date;
 
 public class Loan {
@@ -20,7 +19,7 @@ public class Loan {
         this.termInYears = termInYears;
     }
 
-    // Getter ve Setter metodları
+    // Getter and Setter methods
     public String getLoanId() {
         return loanId;
     }
@@ -69,31 +68,27 @@ public class Loan {
         this.termInYears = termInYears;
     }
 
-
     public double calculateMonthlyPayment() {
-        // Negatif kredi süresi ya da negatif kredi tutarı kontrolü
+        // Check for negative loan term or loan amount
         if (termInYears <= 0) {
-            throw new IllegalArgumentException("Kredi süresi pozitif bir değer olmalıdır.");
+            throw new IllegalArgumentException("Loan term must be a positive value.");
         }
 
         if (loanAmount <= 0) {
-            throw new IllegalArgumentException("Kredi tutarı pozitif bir değer olmalıdır.");
+            throw new IllegalArgumentException("Loan amount must be a positive value.");
         }
 
-        double monthlyInterestRate = (double) interestRate / 12 / 100; // Aylık faiz oranı
-        int numberOfPayments = termInYears * 12; // Toplam ödeme sayısı
+        double monthlyInterestRate = (double) interestRate / 12 / 100; // Monthly interest rate
+        int numberOfPayments = termInYears * 12; // Total number of payments
 
-        // Eğer faiz oranı 0 ise direkt loanAmount / numberOfPayments dönebiliriz.
+        // If interest rate is 0, we can return loanAmount / numberOfPayments directly.
         if (monthlyInterestRate == 0) {
             return loanAmount / numberOfPayments;
         }
 
-        // Aksi takdirde hesaplama formülü
+        // Otherwise, use the calculation formula
         return loanAmount * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
     }
-
-
-
 
     public double calculateTotalRepayment() {
         return calculateMonthlyPayment() * termInYears * 12;
