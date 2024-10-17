@@ -13,18 +13,7 @@ import java.util.List;
 
 public class LoanTest {
     private static Loan loan;
-    // Helper method to read loan IDs from CSV
-    private String[] readLoanIdsFromCsv(String filePath) throws IOException {
-        List<String> loanIds = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip header row
-            String line;
-            while ((line = br.readLine()) != null) {
-                loanIds.add(line);
-            }
-        }
-        return loanIds.toArray(new String[0]);
-    }
+
     @BeforeEach
     public  void setUpBeforeClass() {
         Calendar cal = Calendar.getInstance();
@@ -80,7 +69,7 @@ public class LoanTest {
         assertEquals(10, loan.getTermInYears(), "Loan term should be 10 years");
     }
 
-    @Test
+    @RepeatedTest(3)
     @DisplayName("Monthly Payment Calculation Test")
     public void testCalculateMonthlyPayment() {
         double monthlyPayment = loan.calculateMonthlyPayment();
@@ -123,6 +112,18 @@ public class LoanTest {
         String[] actualLoanIds = readLoanIdsFromCsv("src/test/java/resources/loan.csv");
 
         assertArrayEquals(expectedLoanIds, actualLoanIds, "Loan IDs should match the expected array from CSV.");
+    }
+    // Helper method to read loan IDs from CSV
+    private String[] readLoanIdsFromCsv(String filePath) throws IOException {
+        List<String> loanIds = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip header row
+            String line;
+            while ((line = br.readLine()) != null) {
+                loanIds.add(line);
+            }
+        }
+        return loanIds.toArray(new String[0]);
     }
     @Test
     @DisplayName("Loan Object Reference Equality Test")

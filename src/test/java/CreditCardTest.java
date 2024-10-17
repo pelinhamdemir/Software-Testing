@@ -1,12 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +70,7 @@ public class CreditCardTest {
         assertEquals(expectedType, card.getCardType(), "Card type is different from expected.");
     }
 
-    @Test
+    @RepeatedTest(3)
     @DisplayName("ToString Method Test")
     public void testToString() {
         String expectedString = "CreditCard{cardNumber='1234 5678 9012 3456', cardHolder='Test User', expirationDate=" + cal.getTime() + ", cvv='123'}";
