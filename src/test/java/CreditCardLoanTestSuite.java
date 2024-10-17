@@ -4,6 +4,6 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 
 @Suite
 @SelectClasses({ CreditCardTest.class, LoanTest.class })
-@SuiteDisplayName("All Tests Suite")
-public class AllTestsSuite {
+@SuiteDisplayName("Credit Card and Loan Tests Suite")
+public class CreditCardLoanTestSuite {
 }
