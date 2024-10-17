@@ -109,7 +109,7 @@ public class LoanTest {
     @DisplayName("Loan ID Array Equality Test with CSV Data")
     public void testLoanIdArrayEquality() throws IOException {
         String[] expectedLoanIds = {"L001", "L002", "L003", "L004", "L005"};
-        String[] actualLoanIds = readLoanIdsFromCsv("src/test/java/resources/loan.csv");
+        String[] actualLoanIds = readLoanIdsFromCsv("src/test/resources/loan.csv");
 
         assertArrayEquals(expectedLoanIds, actualLoanIds, "Loan IDs should match the expected array from CSV.");
     }
