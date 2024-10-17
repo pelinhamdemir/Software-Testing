@@ -67,6 +67,9 @@ public class Loan {
     public void setTermInYears(int termInYears) {
         this.termInYears = termInYears;
     }
+    public double calculateMonthlyInterestRate() {
+        return (double) interestRate / 12 / 100; // Monthly interest rate
+    }
 
     public double calculateMonthlyPayment() {
         // Check for negative loan term or loan amount
@@ -78,7 +81,7 @@ public class Loan {
             throw new IllegalArgumentException("Loan amount must be a positive value.");
         }
 
-        double monthlyInterestRate = (double) interestRate / 12 / 100; // Monthly interest rate
+        double monthlyInterestRate = calculateMonthlyInterestRate();
         int numberOfPayments = termInYears * 12; // Total number of payments
 
         // If interest rate is 0, we can return loanAmount / numberOfPayments directly.

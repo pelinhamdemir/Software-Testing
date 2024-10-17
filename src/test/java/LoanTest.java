@@ -67,6 +67,12 @@ public class LoanTest {
         assertTrue(loan.getInterestRate() > 0, "Interest rate should be positive");
         assertEquals(5, loan.getInterestRate(), 0.01, "Interest rate should match expected value");
     }
+    @Test
+    @DisplayName("Monthly Interest Rate Calculation Test")
+    public void testCalculateMonthlyInterestRate() {
+        double monthlyInterestRate = loan.calculateMonthlyInterestRate();
+        assertEquals(0.00416666667, monthlyInterestRate, 0.00000001, "Monthly interest rate should match expected value.");
+    }
 
     @Test
     @DisplayName("Loan Term Assertion Test")
