@@ -20,8 +20,8 @@ public class Account {
         if (amount <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive.");
         }
-        balance += amount;
-        totalDeposits += amount;
+        this.balance += amount;
+        this.totalDeposits += amount;
         System.out.println("Deposited: $" + amount);
     }
 
@@ -33,8 +33,8 @@ public class Account {
         if (amount > balance) {
             throw new IllegalArgumentException("Insufficient funds.");
         }
-        balance -= amount;
-        totalWithdrawals += amount;
+        this.balance -= amount;
+        this.totalWithdrawals += amount;
         System.out.println("Withdrew: $" + amount);
     }
 

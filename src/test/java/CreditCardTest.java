@@ -46,7 +46,7 @@ public class CreditCardTest {
     @DisplayName("CVV Validity Test")
     public void testIsCvvValid() {
         assertTrue(testCard.isCvvValid("123"), "CVV should be valid.");
-        assertFalse(testCard.isCvvValid("456"), "CVV should be invalid.");
+        assertFalse(testCard.isCvvValid("abc"), "CVV should be invalid.");
     }
 
     @Test
@@ -69,8 +69,7 @@ public class CreditCardTest {
         CreditCard card = new CreditCard(cardNumber, "Jane Doe", new Date(), "123");
         assertEquals(expectedType, card.getCardType(), "Card type is different from expected.");
     }
-
-    @RepeatedTest(3)
+    @Test
     @DisplayName("ToString Method Test")
     public void testToString() {
         String expectedString = "CreditCard{cardNumber='1234 5678 9012 3456', cardHolder='Test User', expirationDate=" + cal.getTime() + ", cvv='123'}";

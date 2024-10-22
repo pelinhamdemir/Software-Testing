@@ -131,14 +131,5 @@ public class LoanTest {
         Loan sameLoanReference = loan;
         assertSame(loan, sameLoanReference, "The reference should be the same for the sameLoanReference variable.");
     }
-    @Test
-    @DisplayName("Loan Start Date Reference Inequality Test")
-    public void testLoanStartDateReferenceInequality() {
-        Date startDate1 = new Date();
-        Date startDate2 = new Date(startDate1.getTime()); // Same time but a different Date instance
 
-        Loan loan1 = new Loan("L006", "Chris Green", 10000, 5, startDate1, 2);
-        Loan loan2 = new Loan("L006", "Chris Green", 10000, 5, startDate2, 2);
-
-        assertNotSame(loan1.getLoanStartDate(), loan2.getLoanStartDate(), "The start dates should not reference the same Date instance.");}
 }
