@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.text.ParseException;
@@ -30,9 +30,8 @@ public class CreditCardTest {
 
     @BeforeEach
     public void setUp() {
-        // Set a default valid expiration date and a default test credit card instance for each test
         cal.set(2025, Calendar.JANUARY, 1);
-        testCard = new CreditCard("1234 5678 9012 3456", "Test User", cal.getTime(), "123");
+        testCard = new CreditCard("P01","1234 5678 9012 3456", "Test User", cal.getTime(), "123");
         System.out.println("Initialized a new CreditCard instance for each test");
     }
 
@@ -59,20 +58,17 @@ public class CreditCardTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "4111 1111 1111 1111, Visa",
-            "5111 1111 1111 1111, MasterCard",
-            "6111 1111 1111 1111, Unknown"
-    })
+    @CsvFileSource(resources = "/card.csv")
     @DisplayName("Card Type Detection Test")
     public void testGetCardType(String cardNumber, String expectedType) {
-        CreditCard card = new CreditCard(cardNumber, "Jane Doe", new Date(), "123");
+        CreditCard card = new CreditCard("P01",cardNumber, "Jane Doe", new Date(), "123");
         assertEquals(expectedType, card.getCardType(), "Card type is different from expected.");
     }
+
     @Test
     @DisplayName("ToString Method Test")
     public void testToString() {
-        String expectedString = "CreditCard{cardNumber='1234 5678 9012 3456', cardHolder='Test User', expirationDate=" + cal.getTime() + ", cvv='123'}";
+        String expectedString = "CreditCard{productId='P01', cardNumber='1234 5678 9012 3456', cardHolder='Test User', expirationDate=" + cal.getTime() + ", cvv='123'}";
         assertEquals(expectedString, testCard.toString(), "The toString method should return the expected value.");
     }
 
@@ -86,7 +82,7 @@ public class CreditCardTest {
     @DisplayName("Expiration Date Validity Test")
     public void testIsExpirationDateValid(String expirationDateStr, boolean expectedValidity) throws ParseException {
         Date expirationDate = dateFormat.parse(expirationDateStr);
-        CreditCard card = new CreditCard("1234 5678 9012 3456", "John Doe", expirationDate, "123");
+        CreditCard card = new CreditCard("P03","1234 5678 9012 3456", "John Doe", expirationDate, "123");
 
         assertEquals(expectedValidity, card.isExpirationDateValid(), "Expiration date validity is different from expected.");
     }

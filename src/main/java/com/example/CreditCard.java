@@ -2,14 +2,15 @@ package com.example;
 
 import java.util.Date;
 
-public class CreditCard {
+public class CreditCard extends FinancialProduct {
     private String cardNumber;
     private String cardHolder;
     private Date expirationDate;
     private String cvv;
 
     // Constructor
-    public CreditCard(String cardNumber, String cardHolder, Date expirationDate, String cvv) {
+    public CreditCard(String productId, String cardNumber, String cardHolder, Date expirationDate, String cvv) {
+        super(productId);
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
         this.expirationDate = expirationDate;
@@ -51,11 +52,9 @@ public class CreditCard {
 
     // Method to check if the expiration date is valid
     public boolean isExpirationDateValid() {
-        // If expirationDate is null, return invalid
         if (expirationDate == null) {
             return false;
         }
-
         Date currentDate = new Date();
         return expirationDate.after(currentDate);
     }
@@ -70,7 +69,7 @@ public class CreditCard {
         return cardNumber != null && cardNumber.matches("\\d{4} \\d{4} \\d{4} \\d{4}");
     }
 
-    // Method to return the card type (Visa, MasterCard, etc.)
+    // Method to return the card type
     public String getCardType() {
         if (cardNumber.startsWith("4")) {
             return "Visa";
@@ -81,11 +80,11 @@ public class CreditCard {
         }
     }
 
-    // Method to return card information
     @Override
     public String toString() {
         return "CreditCard{" +
-                "cardNumber='" + cardNumber + '\'' +
+                "productId='" + getProductId() + '\''+
+                ", cardNumber='" + cardNumber + '\'' +
                 ", cardHolder='" + cardHolder + '\'' +
                 ", expirationDate=" + expirationDate +
                 ", cvv='" + cvv + '\'' +

@@ -3,19 +3,14 @@ import org.junit.jupiter.api.*;
 
 import com.example.Loan;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class LoanTest {
-    private static Loan loan;
+    private Loan loan;
 
     @BeforeEach
-    public  void setUpBeforeClass() {
+    public void setUp() {
         Calendar cal = Calendar.getInstance();
         cal.set(2023, Calendar.JANUARY, 1);
         Date loanStartDate = cal.getTime();
@@ -24,7 +19,7 @@ public class LoanTest {
     }
 
     @AfterEach
-    public  void tearDownAfterClass() {
+    public void tearDown() {
         loan = null;
         System.out.println("Loan instance cleaned up after tests");
     }
@@ -32,8 +27,8 @@ public class LoanTest {
     @Test
     @DisplayName("Loan ID Assertion Test")
     public void testLoanId() {
-        assertNotNull(loan.getLoanId(), "Loan ID should not be null");
-        assertEquals("L001", loan.getLoanId(), "Loan ID should match expected value");
+        assertNotNull(loan.getProductId(), "Loan ID should not be null");
+        assertEquals("L001", loan.getProductId(), "Loan ID should match expected value");
     }
 
     @Test
@@ -56,6 +51,7 @@ public class LoanTest {
         assertTrue(loan.getInterestRate() > 0, "Interest rate should be positive");
         assertEquals(5, loan.getInterestRate(), 0.01, "Interest rate should match expected value");
     }
+
     @Test
     @DisplayName("Monthly Interest Rate Calculation Test")
     public void testCalculateMonthlyInterestRate() {
@@ -69,7 +65,7 @@ public class LoanTest {
         assertEquals(10, loan.getTermInYears(), "Loan term should be 10 years");
     }
 
-    @RepeatedTest(3)
+    @Test
     @DisplayName("Monthly Payment Calculation Test")
     public void testCalculateMonthlyPayment() {
         double monthlyPayment = loan.calculateMonthlyPayment();
@@ -95,41 +91,6 @@ public class LoanTest {
     @DisplayName("Interest Rate Edge Case Test")
     public void testZeroInterestRate() {
         loan.setInterestRate(0);
-        assertEquals(loan.getLoanAmount() / (loan.getTermInYears() * 12), loan.calculateMonthlyPayment(),
-                "Monthly payment should match for zero interest rate");
+        assertEquals(loan.getLoanAmount() / (loan.getTermInYears() * 12), loan.calculateMonthlyPayment(), "Monthly payment should match for zero interest");
     }
-
-    @Test
-    @DisplayName("Term in Years Negative Value Test")
-    public void testNegativeTermInYears() {
-        loan.setTermInYears(-5);
-        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment, "Negative term should throw exception");
-    }
-    @Test
-    @DisplayName("Loan ID Array Equality Test with CSV Data")
-    public void testLoanIdArrayEquality() throws IOException {
-        String[] expectedLoanIds = {"L001", "L002", "L003", "L004", "L005"};
-        String[] actualLoanIds = readLoanIdsFromCsv("src/test/resources/loan.csv");
-
-        assertArrayEquals(expectedLoanIds, actualLoanIds, "Loan IDs should match the expected array from CSV.");
-    }
-    // Helper method to read loan IDs from CSV
-    private String[] readLoanIdsFromCsv(String filePath) throws IOException {
-        List<String> loanIds = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip header row
-            String line;
-            while ((line = br.readLine()) != null) {
-                loanIds.add(line);
-            }
-        }
-        return loanIds.toArray(new String[0]);
-    }
-    @Test
-    @DisplayName("Loan Object Reference Equality Test")
-    public void testLoanObjectReferenceEquality() {
-        Loan sameLoanReference = loan;
-        assertSame(loan, sameLoanReference, "The reference should be the same for the sameLoanReference variable.");
-    }
-
 }

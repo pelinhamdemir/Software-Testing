@@ -8,7 +8,7 @@ public class AccountTest {
 
     @BeforeEach
     public void setUp() {
-        account = new Account(500.0); // Initialize account with a starting balance of 500
+        account = new Account("P01",500.0); // Initialize account with a starting balance of 500
         System.out.println("Account instance created for testing");
     }
 

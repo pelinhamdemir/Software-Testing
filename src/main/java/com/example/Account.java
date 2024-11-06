@@ -1,12 +1,13 @@
 package com.example;
 
-public class Account {
+public class Account extends FinancialProduct {
     private double balance;
     private double totalDeposits;
     private double totalWithdrawals;
 
     // Constructor
-    public Account(double initialBalance) {
+    public Account(String productId, double initialBalance) {
+        super(productId);
         if (initialBalance < 0) {
             throw new IllegalArgumentException("Initial balance cannot be negative.");
         }
@@ -57,7 +58,8 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "balance=$" + balance +
+                "productId=" + getProductId() +
+                ", balance=$" + balance +
                 ", totalDeposits=$" + totalDeposits +
                 ", totalWithdrawals=$" + totalWithdrawals +
                 '}';
