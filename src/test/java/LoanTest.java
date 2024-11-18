@@ -87,10 +87,93 @@ public class LoanTest {
         assertNotNull(loan.getLoanStartDate(), "Loan start date should not be null");
     }
 
+
+
     @Test
-    @DisplayName("Interest Rate Edge Case Test")
-    public void testZeroInterestRate() {
+    @DisplayName("White-Box Invalid Loan Term Case Test")
+    public void testInvalidLoanTerm() {
+        Loan loan = new Loan("L123", "John Doe", 100000, 5, new Date(), 0); // termInYears = 0
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
+    @DisplayName("White-Box Invalid Loan Amount Case Test")
+    @Test
+    public void testInvalidLoanAmount() {
+        Loan loan = new Loan("L123", "John Doe", 0, 5, new Date(), 15); // loanAmount = 0
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
+    @Test
+    @DisplayName("White-Box Interest Rate Edge Case Test")
+    public void testZeroInterestRateForWhiteBox() {
         loan.setInterestRate(0);
         assertEquals(loan.getLoanAmount() / (loan.getTermInYears() * 12), loan.calculateMonthlyPayment(), "Monthly payment should match for zero interest");
     }
+    @Test
+    @DisplayName("White-Box Regular Loan Case Test")
+    public void testRegularLoanCalculationForWhiteBox() {
+        Loan loan = new Loan("L123", "John Doe", 100000, 5, new Date(), 15); // interestRate = 5%
+        double monthlyInterestRate = 5.0 / 12 / 100; // Convert annual rate to monthly rate
+        int numberOfPayments = 15 * 12;
+        double expectedPayment = 100000 * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+        assertEquals(expectedPayment, loan.calculateMonthlyPayment(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Regular Loan Calculation with Positive Interest Rate")
+    public void testRegularLoanCalculationForTable() {
+        Loan loan = new Loan("123", "John Doe", 100000, 5, new Date(), 15); // Valid case
+        double monthlyInterestRate = 5.0 / 12 / 100;
+        int numberOfPayments = 15 * 12;
+        double expectedPayment = 100000 * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+        assertEquals(expectedPayment, loan.calculateMonthlyPayment(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Zero Interest Rate Loan")
+    public void testZeroInterestRateForTable() {
+        Loan loan = new Loan("124", "Jane Doe", 100000, 0, new Date(), 15); // Zero interest rate
+        int numberOfPayments = 15 * 12;
+        double expectedPayment = 100000.0 / numberOfPayments;
+        assertEquals(expectedPayment, loan.calculateMonthlyPayment(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Short Loan Term")
+    public void testShortLoanTerm() {
+        Loan loan = new Loan("125", "Alice Smith", 50000, 5, new Date(), 1); // Short term (1 year)
+        double monthlyInterestRate = 5.0 / 12 / 100;
+        int numberOfPayments = 1 * 12;
+        double expectedPayment = 50000 * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+        assertEquals(expectedPayment, loan.calculateMonthlyPayment(), 0.01);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Invalid Loan Term (Zero)")
+    public void testInvalidLoanTermZero() {
+        Loan loan = new Loan("126", "Bob Brown", 100000, 5, new Date(), 0); // termInYears = 0
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Invalid Loan Amount (Zero)")
+    public void testInvalidLoanAmountZero() {
+        Loan loan = new Loan("127", "Charlie Green", 0, 5, new Date(), 15); // loanAmount = 0
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Invalid Loan Term (Negative)")
+    public void testInvalidLoanTermNegative() {
+        Loan loan = new Loan("128", "Daisy White", 100000, 5, new Date(), -1); // termInYears = -1
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
+    @Test
+    @DisplayName("Table-Based Test - Invalid Loan Amount (Negative)")
+    public void testInvalidLoanAmountNegative() {
+        Loan loan = new Loan("129", "Eve Black", -50000, 5, new Date(), 10); // loanAmount = -50000
+        assertThrows(IllegalArgumentException.class, loan::calculateMonthlyPayment);
+    }
+
 }
